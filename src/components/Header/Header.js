@@ -38,6 +38,7 @@ const MainHeader = styled.div`
   border-bottom: 1px solid ${COLORS.gray[300]};
   display: flex;
   gap: 32px;
+  align-items: baseline;
 `;
 
 const Nav = styled.nav`
