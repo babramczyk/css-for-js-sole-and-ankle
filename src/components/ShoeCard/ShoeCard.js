@@ -25,17 +25,36 @@ const ShoeCard = ({
   // on-sale. In theory, it is possible for a shoe to be
   // both on-sale and new-release, but in this case, `on-sale`
   // will triumph and be the variant used.
-  // prettier-ignore
-  const variant = typeof salePrice === 'number'
-    ? 'on-sale'
-    : isNewShoe(releaseDate)
-      ? 'new-release'
-      : 'default'
+  const variant =
+    typeof salePrice === "number"
+      ? "on-sale"
+      : isNewShoe(releaseDate)
+      ? "new-release"
+      : "default";
 
   return (
     <Link href={`/shoe/${slug}`} className={className}>
       <Wrapper>
         <ImageWrapper>
+          {/* This is a bit messy. In a production app, consider a cleaner refactor */}
+          {variant !== "default" && (
+            <VariantTag
+              style={{
+                "--backgroundColor":
+                  variant === "new-release"
+                    ? "#6868D9"
+                    : variant === "on-sale"
+                    ? "#C5295D"
+                    : "black",
+              }}
+            >
+              {variant === "new-release"
+                ? "Just released!"
+                : variant === "on-sale"
+                ? "Sale"
+                : null}
+            </VariantTag>
+          )}
           <Image alt="" src={imageSrc} />
         </ImageWrapper>
         <Spacer size={12} />
@@ -60,6 +79,18 @@ const Wrapper = styled.article``;
 
 const ImageWrapper = styled.div`
   position: relative;
+`;
+
+const VariantTag = styled.div`
+  position: absolute;
+  background: var(--backgroundColor);
+  color: white;
+  padding: 12px;
+  top: 12px;
+  right: -4px;
+  border-radius: 2px;
+  font-weight: 700;
+  font-size: ${14 / 16}rem;
 `;
 
 const Image = styled.img`
